@@ -10,8 +10,8 @@ def get_video_id(url):
     return url.rsplit("/", 1)[-1]
 
 def fetch_and_save_transcript(video_id, output_dir):
-    transcript_file = output_dir / f"{video_id}.txt"
-    translated_file = output_dir / f"{video_id}-translated.txt"
+    transcript_file = output_dir / f"{video_id}.json"
+    translated_file = output_dir / f"{video_id}-translated.json"
     error_file = output_dir / f"error-{video_id}"
 
     # Skip if output or error file already exists
