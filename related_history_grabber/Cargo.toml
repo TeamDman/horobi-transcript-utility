@@ -1,0 +1,12 @@
+[package]
+name = "related_history_grabber"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+indicatif = "0.17.7"
+rayon = "1.8.0"
+scraper = "0.18.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
