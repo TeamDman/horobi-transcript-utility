@@ -1,6 +1,7 @@
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
 from pathlib import Path
 from tqdm import tqdm
+from time import sleep
 
 def get_video_id(url):
     # Extract the video ID from the YouTube URL
@@ -41,9 +42,11 @@ def fetch_and_save_transcript(video_id, output_dir):
             file_name = translated_file
 
         file_name.write_text(str(transcript.fetch()))
-
+        sleep(1)
     except (TranscriptsDisabled, NoTranscriptFound):
         error_file.touch()
+        sleep(1)
+
 
 def main():
     input_file = Path('inputs/input.txt')
