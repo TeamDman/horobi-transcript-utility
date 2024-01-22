@@ -1,4 +1,4 @@
-# Horobi Transcript Utility
+# Horobi Transcript Utility - YouTube
 
 Given a list of YouTube URLs, fetch an english transcript for each video and save it to the outputs folder.
 
