@@ -47,7 +47,7 @@ if ($fetched_date -gt $backup_date) {
     -Uri $uri `
     -Headers $headers
     $data = $resp.Content | ConvertFrom-Json
-    Write-Host "Fetched $($data.items.Count) items out of $($data.total)"
+    Write-Host "Received $($data.items.Count) items, apparently $($data.total) exist remotely. Total received: $($results.Count)"
     $fetched_date = $data.items.update_time | Sort-Object -Top 1
     Write-Host "Oldest update: $($fetched_date)"
     $offset += 100

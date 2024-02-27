@@ -1,7 +1,13 @@
 1. Visit https://chat.openai.com/
-2. Open your browser inspector network tab, look for the request to `https://chat.openai.com/backend-api/conversations?offset=0&limit=28&order=updated`
+2. Open your browser inspector network tab, look for a request like `https://chat.openai.com/backend-api/conversations?offset=0&limit=28&order=updated`
 3. Copy it as powershell
 4. Paste into [`input.txt`](./input.txt)
+
+```pwsh
+./pull_convo_list.ps1
+./build_download_list.ps1
+./pull_convo_contents.ps1
+```
 
 # Inspecting JWTs
 

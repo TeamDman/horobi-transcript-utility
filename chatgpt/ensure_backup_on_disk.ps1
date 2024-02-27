@@ -5,6 +5,7 @@ Write-Host "Found latest ChatGPT export from $($found.Date)"
 Write-Host "Ensuring file is locally available"
 if ($(attrib $found.FullName).split() -contains "O") {
     Write-Host "File is not on disk! Downloading..."
+    # This sets the flag that OneDrive will detect and will actually download the file for us
     attrib +p $found.FullName
     Start-Sleep -Seconds 10
     attrib -p $found.FullName
