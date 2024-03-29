@@ -1,6 +1,8 @@
-## Horobi Transcript Utility - ChatGPT - Revamped
+## Horobi Transcript Utility - ChatGPT
 
-This document outlines the revamped structure and functionality of the Horobi Transcript Utility for ChatGPT, focusing on modularity and improved organization.
+You can export your ChatGPT conversation history to zip.
+
+These scripts expand that zip file to separate conversation jsons that can be used for further analysis.
 
 ### Dependencies
 
@@ -8,8 +10,4 @@ Ensure the following commands are available for full functionality:
 
 - `pwsh`
 - `fzf`
-- `hx`
-- `sqlite3` (optional, for directory suggestions)
-- `zoxide` (optional, for directory suggestions)
 - `rg` (optional, for directory suggestions)
-- `eza` (optional, for directory suggestions)

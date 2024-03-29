@@ -1,6 +1,6 @@
 # Identify the newest backup zip file
 $latest_backup = Join-Path `
-  -Path [System.Environment]::GetFolderPath('MyDocuments') `
+  -Path ([System.Environment]::GetFolderPath('MyDocuments')) `
   -ChildPath "Backups\openai" `
 | Get-ChildItem -Filter "*.zip" `
 | Sort-Object -Descending -Property {
@@ -22,11 +22,37 @@ if ($(attrib $latest_backup.FullName).split() -contains "O") {
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $zip = [System.IO.Compression.ZipFile]::OpenRead($latest_backup.FullName)
 foreach ($entry in $zip.Entries) {
-  $targetPath = Join-Path "conversations" -ChildPath $entry.Name
-  $targetDir = Split-Path $targetPath -Parent
-  New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
-  $entry.ExtractToDirectory($targetPath)
+  if ($entry.FullName -ne "conversations.json") {
+    continue
+  }
+  Write-Host "Found conversations.json in $latest_backup"
+  $reader = New-Object System.IO.StreamReader($entry.Open())
+  $content = $reader.ReadToEnd()
+  $reader.Close()
+  break
 }
 $zip.Dispose()
 
-Write-Host "Conversations extracted to 'conversations' folder."
+if (-not $content) {
+  Write-Warning "No conversations.json found in $latest_backup"
+  return
+}
+
+Write-Host "Processing $($content.Length) bytes of conversations.json"
+$content `
+| ConvertFrom-Json -Depth 100 `
+| ForEach-Object -ThrottleLimit 12 -Parallel {
+  # Parse the created date
+  $date = [datetime]::UnixEpoch.AddSeconds($_.create_time)
+
+  # Build the path
+  $date_str = $date.ToString("yyyy/MM/dd")
+  $path = "ignore\conversations\$date_str\$($_.id).json"
+  
+  # Ensure folder exists
+  $parent_path = Split-Path -Path $path -Parent
+  New-Item -ItemType Directory -Path $parent_path -ErrorAction SilentlyContinue -Force | Out-Null
+  
+  # Save the conversation
+  $_ | ConvertTo-Json -Depth 100 | Set-Content -Path $path
+}
