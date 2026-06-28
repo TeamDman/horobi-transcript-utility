@@ -126,16 +126,19 @@ fn validate_history(old_path: &Path, new_path: &Path, history_type: &str) -> Res
                 "Title".green(),
                 example.title.green()
             );
-            if let Some((before, after)) = find_nearest(&new_data, &example.time) {
-                println!(
-                    "    {}: {}\n    {}: {}",
-                    "Nearest before".bold().blue(),
-                    before.time.yellow(),
-                    "Nearest after".bold().blue(),
-                    after.time.yellow()
-                );
-            } else {
-                println!("    {}", "No nearby entries found in the new file.".red());
+            let show_nearest_entries = false;
+            if show_nearest_entries {
+                if let Some((before, after)) = find_nearest(&new_data, &example.time) {
+                    println!(
+                        "    {}: {}\n    {}: {}",
+                        "Nearest before".bold().blue(),
+                        before.time.yellow(),
+                        "Nearest after".bold().blue(),
+                        after.time.yellow()
+                    );
+                } else {
+                    println!("    {}", "No nearby entries found in the new file.".red());
+                }
             }
 
             if entries.len() > 1 {
